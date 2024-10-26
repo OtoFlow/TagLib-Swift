@@ -24,9 +24,7 @@ let package = Package(
             dependencies: [
                 .product(name: "taglib", package: "CXXTagLib"),
             ],
-            cSettings: [
-                .headerSearchPath("include"),
-            ]
+            publicHeadersPath: "include"
         )
     ],
     cLanguageStandard: .c11,

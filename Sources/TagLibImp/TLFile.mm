@@ -1,13 +1,13 @@
 //
 //  TLFile.mm
-//  TagLib-Swift
+//  TagLibImp
 //
 //  Created by foyoodo on 21/9/2024.
 //
 
 #import "TLFile.h"
+#import "TLFile+Internal.h"
 
-#import <taglib/tfilestream.h>
 #import <taglib/fileref.h>
 
 using namespace TagLib;
@@ -39,6 +39,11 @@ static inline String TLStr(NSString *string) {
 - (void)save
 {
     ref.save();
+}
+
+- (File *)file
+{
+    return ref.file();
 }
 
 // MARK: - Properties

@@ -1,11 +1,13 @@
 //
 //  TLFile.h
-//  TagLib-Swift
+//  TagLibImp
 //
 //  Created by foyoodo on 21/9/2024.
 //
 
 #import <Foundation/Foundation.h>
+
+#import "TLPicture.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,6 +32,8 @@ NS_SWIFT_NAME(TagLib.File)
 @property (nonatomic, copy, nullable) NSNumber *year;
 
 @property (nonatomic, copy, nullable) NSNumber *track;
+
+@property (nonatomic, copy, nullable) NSArray<TLPicture *> *pictures;
 
 @end
 

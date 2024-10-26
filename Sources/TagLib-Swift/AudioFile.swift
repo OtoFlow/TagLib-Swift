@@ -8,6 +8,15 @@
 import Foundation
 @_implementationOnly import TagLibImp
 
+#if os(macOS)
+import AppKit
+public typealias TLCrossPlatformImage = NSImage
+#else // os(macOS)
+import UIKit
+public typealias TLCrossPlatformImage = UIImage
+#endif
+
+
 public final class AudioFile {
 
     public let url: URL
@@ -22,7 +31,12 @@ public final class AudioFile {
 
     public init(url: URL) {
         self.url = url
-        self.file = TagLib.File(url: url)
+
+        if url.pathExtension == "flac" {
+            self.file = TagLib.FLACFile(url: url)
+        } else {
+            self.file = TagLib.File(url: url)
+        }
     }
 
     public func apply() {
@@ -62,11 +76,27 @@ extension AudioFile: AudioBaseProperty {
 
     public var year: UInt? {
         get { file.year?.uintValue }
-        set { file.year = newValue.map(NSNumber.init(value:)); isApplied = false }
+        set { file.year = newValue.map { .init(value: $0) }; isApplied = false }
     }
 
     public var track: UInt? {
         get { file.track?.uintValue }
-        set { file.track = newValue.map(NSNumber.init(value:)); isApplied = false }
+        set { file.track = newValue.map { .init(value: $0) }; isApplied = false }
+    }
+
+    public var pictures: [TLCrossPlatformImage]? {
+        get { file.pictures?.compactMap { .init(data: $0.data) } }
+        set {
+            file.pictures = newValue?.compactMap { image in
+                #if os(macOS)
+                guard let data = image.tiffRepresentation else { return nil }
+                #else
+                guard let data = image.pngData() else { return nil }
+                #endif
+                return .init(data: data, size: image.size)
+            }
+            isApplied = false
+            apply()
+        }
     }
 }

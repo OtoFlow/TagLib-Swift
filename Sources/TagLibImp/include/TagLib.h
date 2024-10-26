@@ -1,6 +1,6 @@
 //
 //  TagLib.h
-//  TagLib-Swift
+//  TagLibImp
 //
 //  Created by foyoodo on 21/9/2024.
 //

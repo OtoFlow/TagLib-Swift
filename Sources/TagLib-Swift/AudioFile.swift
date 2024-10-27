@@ -8,6 +8,11 @@
 import Foundation
 @_implementationOnly import TagLibImp
 
+#if compiler(>=6)
+extension TLCrossPlatformImage: @retroactive @unchecked Sendable { }
+#else
+extension TLCrossPlatformImage: @unchecked Sendable { }
+#endif // compiler(>=6)
 #if os(macOS)
 import AppKit
 public typealias TLCrossPlatformImage = NSImage

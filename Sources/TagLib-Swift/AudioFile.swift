@@ -79,11 +79,7 @@ extension AudioFile: AudioBaseProperty {
         get { file.pictures?.compactMap { .init(data: $0.data) } }
         set {
             file.pictures = newValue?.compactMap { image in
-                #if os(macOS)
                 guard let data = image.pngData() else { return nil }
-                #else
-                guard let data = image.pngData() else { return nil }
-                #endif
                 return .init(data: data, size: image.size)
             }
             isApplied = false

@@ -20,6 +20,10 @@ static inline String TLStr(NSString *string) {
     return string ? String([string UTF8String], String::UTF8) : String();
 }
 
+static inline NSNumber *NullableUInt(unsigned int value) {
+    return value == 0 ? nil : @(value);
+}
+
 @interface TLFile () {
     FileRef ref;
 }
@@ -100,7 +104,7 @@ static inline String TLStr(NSString *string) {
 
 - (NSNumber *)year
 {
-    return @(ref.tag()->year());
+    return NullableUInt(ref.tag()->year());
 }
 
 - (void)setYear:(NSNumber *)year
